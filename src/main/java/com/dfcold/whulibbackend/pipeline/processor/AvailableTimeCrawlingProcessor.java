@@ -6,8 +6,7 @@ import com.dfcold.whulibbackend.pipeline.CrawlingContent;
 /**
  * @author dfcold
  */
-public class ValidLoginCrawlingProcessor extends AbstractProcessor {
-
+public class AvailableTimeCrawlingProcessor extends AbstractProcessor {
 
     @Override
     public void process(CrawlingContent content) {

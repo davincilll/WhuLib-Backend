@@ -1,12 +1,12 @@
 package com.dfcold.whulibbackend.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import org.apache.tomcat.jni.Library;
 
 /**
  * @author dfcold
  */
-@Getter
 public enum BuildingType {
     // 信息分馆
     INFORMATION_BRANCH_LIBRARY(1),
@@ -18,5 +18,9 @@ public enum BuildingType {
         private final int code;
     BuildingType(int code){
         this.code = code;
+    }
+    @JsonValue
+    public int getCode(){
+        return code;
     }
 }

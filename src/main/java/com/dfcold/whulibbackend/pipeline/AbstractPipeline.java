@@ -11,7 +11,9 @@ public abstract class AbstractPipeline {
 
     public AbstractPipeline addProcessor(AbstractProcessor processor) {
         processors.add(processor);
-        return this; // 允许链式调用
+        // 允许链式调用
+
+        return this;
     }
 
     public String execute(String input) {

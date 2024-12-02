@@ -1,33 +1,93 @@
 package com.dfcold.whulibbackend.pipeline;
 
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Optional;
+
 /**
  * @author dfcold
  */
-public abstract class AbstractProcessor<T> {
-    static final String FETCH_URL = "";
-    /**
-     * 处理方法
-     */
-    public void process(CrawlingContent content){
-        String res = getResult();
-        setResult(parseResult(),content);
-    };
+@Component
+public abstract class AbstractProcessor {
+    protected String fetchUrl = "";
+    protected Map<String, String> baseHeaders = Map.of(
+            "User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82",
+            "Origin", "https://seat.lib.whu.edu.cn");
+    protected Map<String, String> otherHeaders = Map.of(
+    );
+    @Resource
+    protected ObjectMapper mapper;
+
+
 
     /**
-     * 向fetch_url 发送请求，获取结果，并进行解析
-     * @return 请求得到的raw结果
+     * 处理
+     *
+     * @param content 公共上下文
      */
-    public abstract String getResult();
+    public abstract void process(CrawlingContent content);
 
-    /**
-     * 将raw 结果转化为实体类，
-     * @return T
-     */
-    public abstract T parseResult();
+    public HttpResponse convertAndGet(){
+        return convertAndGet(Optional.empty(),fetchUrl,otherHeaders,baseHeaders);
+    }
+    public HttpResponse convertAndGet(String url){
+        return convertAndGet(Optional.empty(), url, otherHeaders, baseHeaders);
+    }
+    public HttpResponse convertAndGet(Object object) {
+        return convertAndGet(Optional.of(object), fetchUrl, otherHeaders, baseHeaders);
+    }
 
-    /**
-     * 将结果存入content中，这里只在process接口被调用
-     * @param t T类型实例 content 共享上下文
-     */
-    protected abstract void setResult(T t,CrawlingContent content);
+    public HttpResponse convertAndGet(Object object, String url) {
+        return convertAndGet(Optional.of(object), url, otherHeaders, baseHeaders);
+    }
+
+    public HttpResponse convertAndGet(Object object, Map<String, String> headers) {
+        return convertAndGet(Optional.of(object), fetchUrl, headers, baseHeaders);
+    }
+
+    private HttpResponse convertAndGet(Optional<Object> object, String url, Map<String, String> headers, Map<String, String> baseHeaders) {
+        String encodedUrl = url;
+        if (object.isPresent()){
+            Map<String, Object> formData = mapper.convertValue(object, new TypeReference<Map<String, Object>>() {
+            });
+            encodedUrl = HttpUtil.urlWithForm(url, formData, StandardCharsets.UTF_8, true);
+        }
+        return HttpRequest.get(encodedUrl)
+                .headerMap(baseHeaders, true)
+                .headerMap(headers, false)
+                .execute();
+    }
+
+    public HttpResponse convertAndPost(Object object) {
+        return convertAndPost(object, fetchUrl, otherHeaders, baseHeaders);
+    }
+
+    public HttpResponse convertAndPost(Object object, String url) {
+        return convertAndPost(object, url, otherHeaders, baseHeaders);
+    }
+
+    public HttpResponse convertAndPost(Object object, Map<String, String> headers) {
+        return convertAndPost(object, fetchUrl, headers, baseHeaders);
+    }
+
+    private HttpResponse convertAndPost(Object object, String url, Map<String, String> headers, Map<String, String> baseHeaders) {
+        Map<String, Object> formData = mapper.convertValue(object, new TypeReference<Map<String, Object>>() {
+        });
+        return HttpRequest.post(url)
+                .headerMap(baseHeaders, true)
+                .headerMap(headers, false)
+                .form(formData).execute();
+    }
 }
+
+
+
+

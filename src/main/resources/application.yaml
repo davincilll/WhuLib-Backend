@@ -1,9 +1,23 @@
+server:
+  servlet:
+    context-path: /api
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+  swagger-ui:
+    operations-sorter: method
+    disable-swagger-default-url: true
+  writer-with-default-pretty-printer: true
+  default-produces-media-type: application/json
+  override-with-generic-response: true
 spring:
+
   datasource:
-    url: jdbc:sqlite:db-dev.sqlite
-    driver-class-name: org.sqlite.JDBC
+    url: jdbc:mysql://localhost:3306/dev-whu?useSSL=false&serverTimezone=UTC
+    username: root
+    password: LDroot2406
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
-    database-platform: org.hibernate.community.dialect.SQLiteDialect

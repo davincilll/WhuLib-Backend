@@ -11,7 +11,7 @@ public class LoginCrawlingDto {
     @JsonProperty("SYNCHRONIZER_TOKEN")
     private String synchronizerToken;
     @JsonProperty("SYNCHRONIZER_URI")
-    private String synchronizerUri;
+    private String synchronizerUri="/login";
     private String username;
     private String password;
     private String captchaId;
