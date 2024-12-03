@@ -11,6 +11,12 @@ springdoc:
   writer-with-default-pretty-printer: true
   default-produces-media-type: application/json
   override-with-generic-response: true
+
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
+  expiration: 3600
+
 spring:
 
   datasource:
