@@ -1,0 +1,61 @@
+###
+POST http://localhost:8080/api/user/register
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+<> 2024-12-09T145618.500.html
+<> 2024-12-09T143705.200.json
+<> 2024-12-09T143548.500.html
+<> 2024-12-09T143247.500.json
+<> 2024-12-09T143106.500.json
+<> 2024-12-09T143001.500.json
+<> 2024-12-09T140923.500.json
+<> 2024-12-09T140645.500.json
+<> 2024-12-09T140338.200.json
+<> 2024-12-09T140147.200.json
+
+###
+POST http://localhost:8080/api/user/token
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+<> 2024-12-09T145723.200.json
+<> 2024-12-09T143841.200.json
+<> 2024-12-09T142950.200.json
+<> 2024-12-09T142939.200.json
+<> 2024-12-09T141854.200.json
+<> 2024-12-09T140925.200.json
+
+###
+GET http://localhost:8080/api/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMTEiLCJleHAiOjE3MzM3Njc4NzcsImlhdCI6MTczMzczMTg3Nywic2NvcGUiOiIifQ.rt386YK-MYXR1CLJTLIP4UVh_--1nKH941DmEpdYJhtBONZPvysv68fpwL-uiJOhUl4sj2Hw1UuMPhyMdGVpW2L2678P5zud5N3hlO-qAXwMUjnJzZQ6Mgn-i7-o4TDycO7u_17-aIp01d20tGatuYzR1q6-oPRLHl5yWcfcE5br8oJTLxtaeGgPzZtJs1EtfBS0g_DsQwDkUJWtAedMELPWNR7ZggvaZnUtxCFpvBrQd8na4Q6dYoOrFaTuwRwFCTchgKF91tupWxNIahpMgaUGSsJF00rAVK6mNFtKJsB9GjFtJ0-PwJfe7BwUausQyINrUKoZcMEuiqmKJ9gj4g
+
+<> 2024-12-09T145820.200.json
+<> 2024-12-09T145533.200.json
+<> 2024-12-09T144748.404.json
+<> 2024-12-09T143925.200.json
+
+###
+PATCH http://localhost:8080/api/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMTEiLCJleHAiOjE3MzM3Njc4NzcsImlhdCI6MTczMzczMTg3Nywic2NvcGUiOiIifQ.rt386YK-MYXR1CLJTLIP4UVh_--1nKH941DmEpdYJhtBONZPvysv68fpwL-uiJOhUl4sj2Hw1UuMPhyMdGVpW2L2678P5zud5N3hlO-qAXwMUjnJzZQ6Mgn-i7-o4TDycO7u_17-aIp01d20tGatuYzR1q6-oPRLHl5yWcfcE5br8oJTLxtaeGgPzZtJs1EtfBS0g_DsQwDkUJWtAedMELPWNR7ZggvaZnUtxCFpvBrQd8na4Q6dYoOrFaTuwRwFCTchgKF91tupWxNIahpMgaUGSsJF00rAVK6mNFtKJsB9GjFtJ0-PwJfe7BwUausQyINrUKoZcMEuiqmKJ9gj4g
+
+{
+  "id": 11,
+  "libUsername": "2022302111396",
+  "libPassword": "Tsg73829",
+  "runConfig": {
+    "reserveTimes": ["9:00-22:00"],
+    "autoRelease": true,
+    "enable": true
+  }
+}

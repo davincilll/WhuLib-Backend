@@ -1,7 +1,5 @@
 package com.dfcold.whulibbackend.config;
 
-import com.dfcold.whulibbackend.pipeline.AbstractPipeline;
-import com.dfcold.whulibbackend.pipeline.processor.LoginCrawlingProcessor;
 import org.springframework.context.annotation.Configuration;
 
 /**
