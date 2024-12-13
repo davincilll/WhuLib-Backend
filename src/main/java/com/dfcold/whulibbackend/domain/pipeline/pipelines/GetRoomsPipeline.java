@@ -23,12 +23,6 @@ public class GetRoomsPipeline extends AbstractPipeline {
     ValidLoginCrawlingProcessor validLoginCrawlingProcessor;
     @Resource
     RoomCrawlingProcessor roomCrawlingProcessor;
-    @Resource
-    IUserService userService;
-
-    @Resource
-    ContentUtils contentUtils;
-
     @Override
     public void execute(CrawlingContent content){
         validLoginCrawlingProcessor.process(content);

@@ -26,15 +26,11 @@ public class LibraryProxyController {
     @Resource
     GetSeatsPipeline getSeatsPipeline;
     @Resource
-    GetReserveStatusPipeline getReserveStatusPipeline;
-    @Resource
     GetAvailableTimePipeline getAvailableTimePipeline;
     @Resource
     ReservePipeline reservePipeline;
     @Resource
-    ReleasePipeline releasePipeline;
-    @Resource
-    ContentUtils contentUtils;
+    GetReserveHistoryPipeline getReserveHistoryPipeline;
     @Resource
     IUserService userService;
 
@@ -92,9 +88,14 @@ public class LibraryProxyController {
     }
 
     @Operation(summary = "获取所有预约情况", description = "获取所有预约情况")
-    @GetMapping
+    @GetMapping("/reserveHistory")
     public Result getRes(Authentication authentication) {
-        return Result.ok();
+        Long userId = Long.parseLong(authentication.getName());
+        User user = userService.getById(userId);
+        CrawlingContent lastRunContent = user.getLastRunContent();
+        getReserveHistoryPipeline.execute(lastRunContent);
+        List<ReserveHistory> reserveHistoryList = lastRunContent.getReserveHistoryList();
+        return Result.ok().data("reserveHistoryList", reserveHistoryList);
     }
 
     @Operation(summary = "座位释放", description = "座位释放")

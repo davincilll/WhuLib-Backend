@@ -31,6 +31,7 @@ public class CrawlingContent {
     private List<Room> rooms = new ArrayList<>();
     private List<Seat> seats = new ArrayList<>();
     private AvailableTime availableTime = new AvailableTime();
+    private List<ReserveHistory> reserveHistoryList = new ArrayList<>();
     private boolean isReserved = false;
     private boolean isLogin = false;
 

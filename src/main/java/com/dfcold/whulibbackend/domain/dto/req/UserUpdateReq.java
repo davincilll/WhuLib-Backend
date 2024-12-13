@@ -14,7 +14,6 @@ import java.time.LocalTime;
 @Data
 public class UserUpdateReq {
     private Long id;
-    private String username;
     private String libUsername;
     private String libPassword;
     /**

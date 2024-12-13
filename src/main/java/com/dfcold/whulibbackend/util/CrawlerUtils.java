@@ -2,6 +2,7 @@ package com.dfcold.whulibbackend.util;
 
 import cn.hutool.http.HttpUtil;
 import com.dfcold.whulibbackend.domain.dto.AvailableTime;
+import com.dfcold.whulibbackend.domain.dto.ReserveHistory;
 import com.dfcold.whulibbackend.domain.dto.Seat;
 import com.dfcold.whulibbackend.domain.enums.SeatStatus;
 import org.jsoup.Jsoup;
@@ -116,5 +117,62 @@ public class CrawlerUtils extends HttpUtil {
             availableTime.setAvailablePeriodList(availablePeriodList);
         }
         return availableTime;
+    }
+    public static List<ReserveHistory> parseReserveHistory(String html) {
+        // 解析 HTML
+        Document doc = Jsoup.parse(html);
+
+        // 选择所有的预约记录
+        Elements reservationElements = doc.select(".myReserveList dl");
+        List<ReserveHistory> reserveHistoryList = new ArrayList<>();
+        // 遍历每个预约记录
+        for (Element reservation : reservationElements) {
+            if ("moreBlock".equals(reservation.select("dl").attr("id"))){
+                continue;
+            }
+            // 提取时间
+            String time = reservation.select("dt").text();
+            // 提取地点
+            String location = reservation.select("dd a").text();
+
+            // 提取状态
+            String status = reservation.select("a").last().text();
+            reserveHistoryList.add(new ReserveHistory(location,status,time));
+        }
+        return reserveHistoryList;
+    }
+
+    //public static boolean checkHasMoreResHistory(String html) {
+    //    if (html.contains("显示更多")){
+    //        return true;
+    //    }else{
+    //        return false;
+    //    }
+    //}
+    public static List<ReserveHistory> parseMoreReserveHistory(String html) {
+        // 解析 HTML
+        Document doc = Jsoup.parse(html);
+
+        // 选择所有的预约记录
+        Elements reservationElements = doc.select(".myReserveList dl");
+
+        // 遍历每个预约记录
+        for (Element reservation : reservationElements) {
+            // 提取时间
+            String time = reservation.select("dt").text();
+
+            // 提取地点
+            String location = reservation.select("dd a").text();
+
+            // 提取状态
+            String status = reservation.select("a").last().text();
+
+            // 打印结果
+            System.out.println(time);
+            System.out.println(location);
+            System.out.println(status);
+            System.out.println(); // 分隔每条记录
+        }
+        return null;
     }
 }

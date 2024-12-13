@@ -1,6 +1,7 @@
 package com.dfcold.whulibbackend.controller;
 
 import com.dfcold.whulibbackend.common.Result;
+import com.dfcold.whulibbackend.domain.dto.UserInfo;
 import com.dfcold.whulibbackend.domain.dto.req.AuthReq;
 import com.dfcold.whulibbackend.domain.dto.req.UserUpdateReq;
 import com.dfcold.whulibbackend.domain.entity.User;
@@ -76,7 +77,9 @@ public class UserController {
     public Result getById(Authentication authentication) {
         Long userId = Long.parseLong(authentication.getName());
         User user = userService.getById(userId);
-        return Result.ok().data("user", user);
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(user, userInfo);
+        return Result.ok().data("user", userInfo);
 
     }
 

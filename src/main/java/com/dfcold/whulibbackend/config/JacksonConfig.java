@@ -25,18 +25,4 @@ public class JacksonConfig {
      * @return Converter
      * ！！！注意这里不能转为lambda表达式，会表错
      */
-    @Bean
-    public Converter<String, BuildingType> stringToBuildingTypeConverter(){
-        return new Converter<String, BuildingType>() {
-            @Override
-            public BuildingType convert(String source) {
-                for (BuildingType type : BuildingType.values()) {
-                    if (type.getCode().equals(source)) {
-                        return type;
-                    }
-                }
-                throw new IllegalArgumentException("Invalid BuildingType: " + source);
-            }
-        };
-    }
 }

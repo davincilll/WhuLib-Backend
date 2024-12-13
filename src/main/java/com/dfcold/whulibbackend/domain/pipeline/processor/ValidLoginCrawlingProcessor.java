@@ -24,6 +24,9 @@ public class ValidLoginCrawlingProcessor extends AbstractProcessor {
     public void process(CrawlingContent content) {
         Map<String,String> cookieHeader = Map.of("Cookie", content.getCookies());
         HttpResponse httpResponse = convertAndGet(fetchUrl, cookieHeader);
+        if (httpResponse.body().contains("维护")){
+            throw new RuntimeException("服务器维护中");
+        }
         if (httpResponse.getStatus() == 302){
             content.setLogin(false);
         }

@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+//import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
@@ -32,7 +33,7 @@ import java.security.interfaces.RSAPublicKey;
  * @author dfcold
  */
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig {
 
     @Value("${jwt.public.key}")
@@ -47,11 +48,13 @@ public class SecurityConfig {
         // @formatter:off
 		http
 				.authorizeHttpRequests((authorize) -> authorize
+                        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // 注意spring 的请求截断
                         .antMatchers( "/user/token", "/user/register","/swagger-ui","/swagger-ui/**","/v3/api-docs","/v3/api-docs/**").permitAll() // 允许这些路径
                         .anyRequest().authenticated() // 其他请求需要身份验证
 
                 )
+                .cors(CorsConfigurer::disable)
 				.csrf(CsrfConfigurer::disable)
 				//.httpBasic(Customizer.withDefaults())
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
